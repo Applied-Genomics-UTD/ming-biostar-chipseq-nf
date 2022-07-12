@@ -12,8 +12,8 @@ process compare_peak_sets {
     path YAP1
     path blacklist
 
-    // output:
-    // stdout
+    output:
+    path '*_filtered_peaks.bed'
 
     script:
     """
