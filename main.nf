@@ -15,7 +15,8 @@ process compare_peak_sets {
     path blacklist
 
     output:
-    path '*_filtered_peaks.bed'
+    path 'H3K27ac_filtered_peaks.bed', emit: H3K27ac
+    path 'YAP1_filtered_peaks.bed', emit: YAP1
 
     script:
     """
@@ -35,20 +36,21 @@ process YAP1_overlap_H3K27ac {
     conda 'bedtools'
 
     input:
-    path filtered_bed_files
+    path H3K27ac_bed
+    path YAP1_bed
 
     script:
     """
-    bedtools intersect -a YAP1_filtered_peaks.bed -b H3K27ac_filtered_peaks.bed -wa | wc -l
+    bedtools intersect -a $YAP1_bed -b $H3K27ac_bed -wa | wc -l
     #1882
 
-    bedtools intersect -a YAP1_filtered_peaks.bed -b H3K27ac_filtered_peaks.bed -wa | sort | uniq | wc -l
+    bedtools intersect -a $YAP1_bed -b $H3K27ac_bed -wa | sort | uniq | wc -l
     #1882
 
-    bedtools intersect -a H3K27ac_filtered_peaks.bed -b YAP1_filtered_peaks.bed -wa | wc -l
+    bedtools intersect -a $H3K27ac_bed -b $YAP1_bed -wa | wc -l
     #1882
 
-    bedtools intersect -a H3K27ac_filtered_peaks.bed -b YAP1_filtered_peaks.bed -wa | sort | uniq | wc -l
+    bedtools intersect -a $H3K27ac_bed -b $YAP1_bed -wa | sort | uniq | wc -l
     #1772
     """
 }
@@ -62,7 +64,8 @@ workflow {
     )
 
     YAP1_overlap_H3K27ac (
-        compare_peak_sets.out
+        compare_peak_sets.out.H3K27ac,
+        compare_peak_sets.out.YAP1
     )
 
 }
