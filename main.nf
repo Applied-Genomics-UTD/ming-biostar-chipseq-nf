@@ -8,6 +8,7 @@ params.YAP1_peaks = file("/scratch/applied-genomics/chipseq/ming-results/bwa/mer
 
 include { compare_peak_sets } from "./modules/compare_peak_sets"
 include { YAP1_overlap_H3K27ac } from "./modules/YAP1_overlap_H3K27ac.nf"
+include { ANNOTATE_PEAKS } from "./modules/annotate_peaks.nf"
 
 workflow {
     compare_peak_sets (
@@ -21,4 +22,8 @@ workflow {
         compare_peak_sets.out.YAP1
     )
 
+    ANNOTATE_PEAKS (
+        params.H3K27ac_peaks,
+        params.YAP1_peaks
+    )
 }
