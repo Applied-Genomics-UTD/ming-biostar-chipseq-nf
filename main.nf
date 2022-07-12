@@ -7,6 +7,8 @@ params.H3K27ac_peaks = file("/scratch/applied-genomics/chipseq/ming-results/bwa/
 params.YAP1_peaks = file("/scratch/applied-genomics/chipseq/ming-results/bwa/mergedLibrary/macs2/broadPeak/WT_YAP1_peaks.broadPeak")
 
 process compare_peak_sets {
+    conda 'bedtools'
+
     input:
     path H3K27ac
     path YAP1
