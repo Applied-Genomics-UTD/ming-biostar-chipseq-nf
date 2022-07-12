@@ -1,5 +1,5 @@
 process ANNOTATE_PEAKS {
-    conda 'bioconda::bioconductor-chipseeker bioconda::bioconductor-txdb.hsapiens.ucsc.hg19.knowngene bioconda::bioconductor-rtracklayer bioconda::bioconductor-org.hs.eg.db '
+    conda './envs/annotate_peaks.yml'
 
     input:
     path H3K27ac_bed
