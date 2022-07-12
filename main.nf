@@ -31,10 +31,38 @@ process compare_peak_sets {
     """
 }
 
+process YAP1_overlap_H3K27ac {
+    conda 'bedtools'
+
+    input:
+    path filtered_bed_files
+
+    script:
+    """
+    bedtools intersect -a YAP1_filtered_peaks.bed -b H3K27ac_filtered_peaks.bed -wa | wc -l
+    #1882
+
+    bedtools intersect -a YAP1_filtered_peaks.bed -b H3K27ac_filtered_peaks.bed -wa | sort | uniq | wc -l
+    #1882
+
+    bedtools intersect -a H3K27ac_filtered_peaks.bed -b YAP1_filtered_peaks.bed -wa | wc -l
+    #1882
+
+    bedtools intersect -a H3K27ac_filtered_peaks.bed -b YAP1_filtered_peaks.bed -wa | sort | uniq | wc -l
+    #1772
+    """
+}
+
+
 workflow {
     compare_peak_sets (
         params.H3K27ac_peaks,
         params.YAP1_peaks,
         params.blacklist_bed
     )
+
+    YAP1_overlap_H3K27ac (
+        compare_peak_sets.out
+    )
+
 }
