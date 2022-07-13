@@ -17,7 +17,7 @@ process ANNOTATE_PEAKS {
     txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
 
     # read in the peaks for YAP1
-    YAP1<- import("YAP1_peaks.bed", format = "BED")
+    YAP1 <- readPeakFile("$YAP1_bed", as="GRanges")
     YAP1
 
     YAP1_anno<- annotatePeak(YAP1, tssRegion=c(-3000, 3000),
