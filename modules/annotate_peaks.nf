@@ -26,9 +26,8 @@ process ANNOTATE_PEAKS {
                          overlap = "TSS")
 
     # some nice visualization you can do
-    library(ggimage)
     plotAnnoPie(YAP1_anno)
-    upsetplot(YAP1_anno, vennpie=TRUE)
+    upsetplot(YAP1_anno, vennpie=FALSE)
 
     # check the annotation
     head(as.data.frame(YAP1_anno))
