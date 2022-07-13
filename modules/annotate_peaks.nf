@@ -5,6 +5,9 @@ process ANNOTATE_PEAKS {
     path H3K27ac_bed
     path YAP1_bed
 
+    output:
+    path "YAP1_peaks_anno.txt"
+
     script:
     """
     #!/usr/bin/env Rscript
