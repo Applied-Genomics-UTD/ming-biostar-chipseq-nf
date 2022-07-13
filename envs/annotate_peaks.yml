@@ -3,8 +3,10 @@ channels:
   - conda-forge
   - bioconda
   - defaults
+  - genomedk
 dependencies:
   - bioconductor-chipseeker
   - bioconductor-txdb.hsapiens.ucsc.hg19.knowngene
   - bioconductor-rtracklayer
   - bioconductor-org.hs.eg.db
+  - r-ggimage
