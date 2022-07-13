@@ -8,10 +8,11 @@ process ANNOTATE_PEAKS {
     script:
     """
     #!/usr/bin/env Rscript
-    library(ChIPseeker)
-    library(TxDb.Hsapiens.UCSC.hg19.knownGene)
-    library(rtracklayer)
-    library("org.Hs.eg.db")
+
+    suppressPackageStartupMessages(library(ChIPseeker))
+    suppressPackageStartupMessages(library(TxDb.Hsapiens.UCSC.hg19.knownGene))
+    suppressPackageStartupMessages(library(rtracklayer))
+    suppressPackageStartupMessages(library("org.Hs.eg.db"))
 
     txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
 
