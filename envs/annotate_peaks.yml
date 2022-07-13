@@ -8,3 +8,4 @@ dependencies:
   - bioconductor-txdb.hsapiens.ucsc.hg19.knowngene
   - bioconductor-rtracklayer
   - bioconductor-org.hs.eg.db
+  - bioconductor-clusterprofiler

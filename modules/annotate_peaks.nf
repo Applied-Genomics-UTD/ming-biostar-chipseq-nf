@@ -7,6 +7,8 @@ process ANNOTATE_PEAKS {
 
     output:
     path "YAP1_peaks_anno.txt"
+    path "Rplots.pdf"
+    path "YAP_KEGG_pathway_genes.txt"
 
     script:
     """
@@ -37,5 +39,30 @@ process ANNOTATE_PEAKS {
 
     # you can save it to a txt file to your computer
     write.table(as.data.frame(YAP1_anno), "YAP1_peaks_anno.txt", row.names =F, col.names=T, sep ="\t", quote = F)
+
+    # https://www.biostarhandbook.com/chip-seq-downstream-analysis-1.html#how-do-i-do-pathway-enrichment-analysis-for-the-peaks
+    library(clusterProfiler)
+
+    ## GO term enrichment
+    ego <- enrichGO(gene           = as.data.frame(YAP1_anno)$SYMBOL,
+                    OrgDb         = org.Hs.eg.db,
+                    keytype       = "SYMBOL",
+                    ont           = "BP",
+                    pAdjustMethod = "BH",
+                    pvalueCutoff  = 0.01,
+                    qvalueCutoff  = 0.05)
+    # visualization
+    dotplot(ego, showCategory = 20)
+
+
+    ## Kegg pathway enrichment, need the Entrez ID
+    kk<- enrichKEGG(gene    = as.data.frame(YAP1_anno)$geneId,
+            organism     = 'hsa',
+            pvalueCutoff = 0.05)
+
+    dotplot(kk, showCategory = 20, title = "YAP1 binding pathway enrichment")
+
+    ## you can write the result to a tsv file
+    write.table(kk@result, "YAP_KEGG_pathway_genes.txt", sep = "\t", col.names = T, row.names = F, quote =F)
     """
 }
