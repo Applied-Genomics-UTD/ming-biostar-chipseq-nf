@@ -12,6 +12,7 @@ params.hg19_chrom = file("ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromoso
 include { compare_peak_sets } from "./modules/compare_peak_sets"
 include { YAP1_overlap_H3K27ac } from "./modules/YAP1_overlap_H3K27ac.nf"
 include { ANNOTATE_PEAKS } from "./modules/annotate_peaks.nf"
+include { MOTIF_ANALYSIS } from "./modules/motif_analysis.nf"
 
 workflow {
     compare_peak_sets (
@@ -28,5 +29,9 @@ workflow {
     ANNOTATE_PEAKS (
         params.H3K27ac_peaks,
         params.YAP1_peaks
+    )
+    MOTIF_ANALYSIS (
+        params.YAP1_summits,
+        params.hg19_chrom
     )
 }
