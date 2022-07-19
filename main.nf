@@ -8,11 +8,13 @@ params.YAP1_peaks = file("/scratch/applied-genomics/chipseq/ming-results/bwa/mer
 params.YAP1_summits = file("/scratch/applied-genomics/chipseq/ming-results/bwa/mergedLibrary/macs2/broadPeak/WT_YAP1_summits.bed")
 // http://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/*
 params.hg19_chrom = file("ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/*")
+params.meme_db = file("/scratch/applied-genomics/references/meme/motif_databases/EUKARYOTE/jolma2013.meme", checkIfExists: true)
 
 include { compare_peak_sets } from "./modules/compare_peak_sets"
 include { YAP1_overlap_H3K27ac } from "./modules/YAP1_overlap_H3K27ac.nf"
 include { ANNOTATE_PEAKS } from "./modules/annotate_peaks.nf"
 include { MOTIF_ANALYSIS } from "./modules/motif_analysis.nf"
+include { MEME_CHIP } from './modules/meme_chip.nf'
 
 workflow {
     compare_peak_sets (
@@ -33,5 +35,9 @@ workflow {
     MOTIF_ANALYSIS (
         params.YAP1_summits,
         params.hg19_chrom
+    )
+    MEME_CHIP (
+        MOTIF_ANALYSIS.out,
+        params.meme_db
     )
 }
